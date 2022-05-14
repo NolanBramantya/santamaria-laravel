@@ -1,6 +1,3 @@
-
-
-
 <!doctype html>
 <html lang="en">
     <head>
@@ -40,7 +37,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
         -->
-        <header>
+        <header class="header fixed-top">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -81,9 +78,9 @@
                     <a href="#">Pemberkatan Jenazah</a>
                     <a href="#">Perkawinan</a>
                     <a href="#">Baptis</a>
-                    <a href="#">Kegiatan DPP</a>
+                    <a href="kegiatandpp">Kegiatan DPP</a>
                 </div>
-                <a href="#" class="nav_link"> <i class='fas fa-cross nav_icon'></i> <span class="nav_name">Jadwal Romo</span> </a>
+                <a href="jadwalromo" class="nav_link"> <i class='fas fa-cross nav_icon'></i> <span class="nav_name">Jadwal Romo</span> </a>
                 <a href="#" class="nav_link"> <i class='fas fa-church nav_icon'></i> <span class="nav_name">Info Ruangan</span> </a>
                 <a href="#" class="nav_link"> <i class='bx bx-map nav_icon'></i> <span class="nav_name">Peta</span> </a>
                 <a href="#" class="nav_link"> <i class='bx bx-globe nav_icon'></i> <span class="nav_name">Website GMA</span> </a>
@@ -94,75 +91,50 @@
             
         </div>
 
-       
-     <div class="content container">
-            <h2 class = "text-center"> Jadwal Romo</h2>
-            
-        <div class="alert alert-danger text-center"> <strong>Jadwal bisa berubah sewaktu-waktu!</strong>
-        </div>
-        
-        <div>
-            <form id="forminforomo">
-                <div class="form-group row" id="romo_id">
-                    <label class="">Romo</label>
-
-                    <div class="form-group">
-                        <label>NamaRomo</label>
-                        <select name="romo_id" class="form-control">
-                            <option value="">- Pilih Romo -</option>
-
-                        <?php
-                            use App\Http\Controllers\InfoRomoController;
-                            $InfoRomoController = new InfoRomoController;
-                            $inforomos = $InfoRomoController->jadwalromo();
-                        ?>
-                        
-                       
-                            @foreach ($inforomos as $item)
-                            <option value="{{$item->romo_id}}">{{$item->romo_nama}}</option>
-                            @endforeach
-                        </select>
-
-                        <table>
+        <div class="main">
+            <h2 class="text-center">INPUT JADWAL ROMO</h2>
+            <br/>
+            <br/>
+            <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <form id="inputjadwalromo" action="/input_jadwal_romo" method="post">
+                                    {{ csrf_field() }}
+                                    <div class="form-group row">
+                                        <label>Nama Romo</label>
+                                        <div class="form-group">
+                                            <select name="romo_id" id="romo_id">
+                                            <option value="">- Pilih Romo -</option>
+                                            <?php 
+                                                use App\Http\Controllers\InfoRomoController;
+                                                $InfoRomoController = new InfoRomoController;
+                                                $inforomos = $InfoRomoController->jadwalromo();
+                                            ?>
+                                            @foreach ($inforomos as $item)
+                                                <option value="{{$item->romo_id}}">{{$item->romo_nama}}</option>
+                                            @endforeach
+                                            </select>
+                                        </div>
+                                        <label>Jadwal Mulai</label>
+                                        <input type="datetime-local" id="jadwal_mulai" name="jadwal_mulai">
+                                        <label>Jadwal Selesai</label>
+                                        <input type="datetime-local" id="jadwal_selesai" name="jadwal_selesai">
+                                        <label>Keterangan</label>
+                                        <input type="text" id="keterangan" name="keterangan">
+                                        <button type="submit">
+                                    </div>
+                                </form>
                             
-                            <tr>
-
-                            </tr>
-                        </table>
-
-                    </div>
-                </div>
-            </form>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              
+                            </tbody>
+                          </table>  
         </div>
-    </div> 
 
     <script>
-        /*  <div class="content container">
-            <h2 class = "text-center"> Jadwal Romo</h2>
-            
-        <div class="alert alert-danger text-center"> <strong>Jadwal bisa berubah sewaktu-waktu!</strong>
-        </div>
-        
-        <div>
-            <form id="forminforomo">
-                <div class="form-group row" id="romobyromo">
-                    <label class="">Romo</label>
-
-                    <div class="form-group">
-                        <label>NamaRomo</label>
-                        <select name="romo_id" class="form-control">
-                            <option value="">- Pilih Romo -</option>
-                            
-
-                            <option value=""></option>
-                            
-                        </select>
-
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div> Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
         var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
 

@@ -41,3 +41,7 @@ Route::get('/jadwalromo', function () {
 Route::get('/kegiatandpp', function () {
     return view('kegiatandpp');
 });
+
+Route::get('/inputjadwalromo', function () {
+    return view('inputjadwalromo');
+});
